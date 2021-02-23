@@ -13,7 +13,7 @@ public class ThreadDemo extends Thread {
     public void run() {
         while (counter.getValue() < MAX_COUNTER) {
             logger.info("Thread-1 value = " + counter.getValue());
-            counter.add();
+            counter.increment();
         }
     }
 }

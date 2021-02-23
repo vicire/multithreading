@@ -9,7 +9,7 @@ public class Counter {
         this.value = value;
     }
 
-    public void add() {
+    public void increment() {
         value++;
     }
 }

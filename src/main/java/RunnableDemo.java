@@ -13,7 +13,7 @@ public class RunnableDemo implements Runnable {
     public void run() {
         while (counter.getValue() < MAX_COUNTER) {
             logger.info("Thread-0 value = " + counter.getValue());
-            counter.add();
+            counter.increment();
         }
     }
 }
