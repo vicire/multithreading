@@ -1,6 +1,7 @@
 package sum;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -8,7 +9,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.ListUtils;
 
 public class ExecutorServiceSum {
-    public static final int THREADS = 10;
+    private static final int THREADS = 10;
     private final List<Integer> digits;
 
     public ExecutorServiceSum(List<Integer> digits) {
@@ -18,13 +19,13 @@ public class ExecutorServiceSum {
     public Integer calculate() {
         ExecutorService executorService = Executors.newFixedThreadPool(THREADS);
         List<List<Integer>> partThread = ListUtils.partition(digits, digits.size() / THREADS);
-        List<MyCallable> myCallables = partThread.stream()
-                .map(MyCallable::new)
+        List<Callable<Integer>> myCallables = partThread.stream()
+                .map(SumCallable::new)
                 .collect(Collectors.toList());
         try {
             executorService.invokeAll(myCallables);
             int sum = 0;
-            for (MyCallable thread : myCallables) {
+            for (Callable<Integer> thread : myCallables) {
                 sum += executorService.submit(thread).get();
             }
             executorService.shutdown();
