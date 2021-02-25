@@ -27,11 +27,10 @@ public class ExecutorServiceSum {
             for (MyCallable thread : myCallables) {
                 sum += executorService.submit(thread).get();
             }
+            executorService.shutdown();
             return sum;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException("An error was occurred", e);
-        } finally {
-            executorService.shutdown();
         }
     }
 }
